@@ -16,7 +16,7 @@ import { DonationItem } from '@shared/schema';
 
 export default function DonationsList() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   
   // Fetch donations
   const { 
@@ -24,7 +24,7 @@ export default function DonationsList() {
     isLoading, 
     error 
   } = useQuery<DonationItem[]>({ 
-    queryKey: ['/api/donations', selectedCategory], 
+    queryKey: ['/api/donations', selectedCategory !== 'all' ? selectedCategory : ''], 
   });
   
   // Filter donations based on search query
@@ -86,7 +86,7 @@ export default function DonationsList() {
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Categories</SelectItem>
+                <SelectItem value="all">All Categories</SelectItem>
                 <SelectItem value="Furniture">Furniture</SelectItem>
                 <SelectItem value="Clothing">Clothing</SelectItem>
                 <SelectItem value="Electronics">Electronics</SelectItem>
