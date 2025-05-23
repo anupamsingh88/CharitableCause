@@ -41,16 +41,16 @@ export default function Header() {
             <Link href="/" className={`text-gray-700 hover:text-primary font-medium ${location === '/' ? 'text-primary' : ''}`}>
               Home
             </Link>
-            <Link href="/#about" className="text-gray-700 hover:text-primary font-medium">
+            <Link href="/about" className={`text-gray-700 hover:text-primary font-medium ${location === '/about' ? 'text-primary' : ''}`}>
               About
             </Link>
-            <Link href="/#donate" className="text-gray-700 hover:text-primary font-medium">
+            <Link href="/donate" className={`text-gray-700 hover:text-primary font-medium ${location === '/donate' ? 'text-primary' : ''}`}>
               Donate
             </Link>
-            <Link href="/#browse" className="text-gray-700 hover:text-primary font-medium">
+            <Link href="/browse" className={`text-gray-700 hover:text-primary font-medium ${location === '/browse' ? 'text-primary' : ''}`}>
               Browse
             </Link>
-            <Link href="/#contact" className="text-gray-700 hover:text-primary font-medium">
+            <Link href="/contact" className={`text-gray-700 hover:text-primary font-medium ${location === '/contact' ? 'text-primary' : ''}`}>
               Contact
             </Link>
           </nav>
@@ -91,16 +91,16 @@ export default function Header() {
             <Link href="/" className="block py-2 text-gray-700 hover:text-primary font-medium">
               Home
             </Link>
-            <Link href="/#about" className="block py-2 text-gray-700 hover:text-primary font-medium">
+            <Link href="/about" className="block py-2 text-gray-700 hover:text-primary font-medium">
               About
             </Link>
-            <Link href="/#donate" className="block py-2 text-gray-700 hover:text-primary font-medium">
+            <Link href="/donate" className="block py-2 text-gray-700 hover:text-primary font-medium">
               Donate
             </Link>
-            <Link href="/#browse" className="block py-2 text-gray-700 hover:text-primary font-medium">
+            <Link href="/browse" className="block py-2 text-gray-700 hover:text-primary font-medium">
               Browse
             </Link>
-            <Link href="/#contact" className="block py-2 text-gray-700 hover:text-primary font-medium">
+            <Link href="/contact" className="block py-2 text-gray-700 hover:text-primary font-medium">
               Contact
             </Link>
             <div className="pt-2 flex space-x-4">

@@ -10,6 +10,10 @@ import Footer from "./components/layout/Footer";
 import HomePage from "./pages/HomePage";
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
+import AboutPage from "./pages/AboutPage";
+import DonatePage from "./pages/DonatePage";
+import BrowsePage from "./pages/BrowsePage";
+import ContactPage from "./pages/ContactPage";
 import NotFound from "@/pages/not-found";
 import { Helmet } from "react-helmet";
 
@@ -17,6 +21,10 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={HomePage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/donate" component={DonatePage} />
+      <Route path="/browse" component={BrowsePage} />
+      <Route path="/contact" component={ContactPage} />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/profile" component={ProfilePage} />
       <Route component={NotFound} />
