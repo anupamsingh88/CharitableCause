@@ -1,8 +1,11 @@
 import { 
   User, InsertUser, 
   DonationItem, InsertDonationItem,
-  ContactMessage, InsertContactMessage
+  ContactMessage, InsertContactMessage,
+  users, donationItems, contactMessages
 } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc, asc } from "drizzle-orm";
 
 // Storage interface for all data operations
 export interface IStorage {
@@ -23,94 +26,87 @@ export interface IStorage {
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
 }
 
-// In-memory storage implementation
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private donationItems: Map<number, DonationItem>;
-  private contactMessages: Map<number, ContactMessage>;
-  private userId: number;
-  private donationId: number;
-  private messageId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.donationItems = new Map();
-    this.contactMessages = new Map();
-    this.userId = 1;
-    this.donationId = 1;
-    this.messageId = 1;
-  }
-
+// Database storage implementation
+export class DatabaseStorage implements IStorage {
   // User methods
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.email === email,
-    );
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
 
   // Donation methods
   async getDonationItem(id: number): Promise<DonationItem | undefined> {
-    return this.donationItems.get(id);
+    const [item] = await db.select().from(donationItems).where(eq(donationItems.id, id));
+    return item;
   }
 
   async getDonationItems(limit?: number): Promise<DonationItem[]> {
-    const items = Array.from(this.donationItems.values());
-    return limit ? items.slice(0, limit) : items;
+    let query = db.select().from(donationItems).orderBy(desc(donationItems.createdAt));
+    
+    if (limit) {
+      query = query.limit(limit);
+    }
+    
+    return await query;
   }
 
   async getDonationItemsByCategory(category: string): Promise<DonationItem[]> {
-    return Array.from(this.donationItems.values()).filter(
-      (item) => item.category.toLowerCase() === category.toLowerCase(),
-    );
+    return await db
+      .select()
+      .from(donationItems)
+      .where(eq(donationItems.category, category))
+      .orderBy(desc(donationItems.createdAt));
   }
 
   async getDonationItemsByUserId(userId: number): Promise<DonationItem[]> {
-    return Array.from(this.donationItems.values()).filter(
-      (item) => item.donorId === userId,
-    );
+    return await db
+      .select()
+      .from(donationItems)
+      .where(eq(donationItems.donorId, userId))
+      .orderBy(desc(donationItems.createdAt));
   }
 
   async createDonationItem(insertItem: InsertDonationItem): Promise<DonationItem> {
-    const id = this.donationId++;
-    const now = new Date();
-    const item: DonationItem = { 
-      ...insertItem, 
-      id, 
-      status: "available", 
-      createdAt: now 
-    };
-    this.donationItems.set(id, item);
+    const [item] = await db
+      .insert(donationItems)
+      .values({
+        ...insertItem,
+        status: "available",
+      })
+      .returning();
+    
     return item;
   }
 
   async updateDonationItemStatus(id: number, status: string): Promise<DonationItem | undefined> {
-    const item = this.donationItems.get(id);
-    if (!item) return undefined;
+    const [updatedItem] = await db
+      .update(donationItems)
+      .set({ status })
+      .where(eq(donationItems.id, id))
+      .returning();
     
-    const updatedItem: DonationItem = { ...item, status };
-    this.donationItems.set(id, updatedItem);
     return updatedItem;
   }
 
   // Contact methods
   async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
-    const id = this.messageId++;
-    const now = new Date();
-    const message: ContactMessage = { ...insertMessage, id, createdAt: now };
-    this.contactMessages.set(id, message);
+    const [message] = await db
+      .insert(contactMessages)
+      .values(insertMessage)
+      .returning();
+    
     return message;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
