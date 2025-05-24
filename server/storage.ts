@@ -1,8 +1,9 @@
 import { 
   User, InsertUser, 
   DonationItem, InsertDonationItem,
+  ItemRequest, InsertItemRequest,
   ContactMessage, InsertContactMessage,
-  users, donationItems, contactMessages
+  users, donationItems, itemRequests, contactMessages
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, asc } from "drizzle-orm";

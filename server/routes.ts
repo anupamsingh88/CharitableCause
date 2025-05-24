@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { 
   insertUserSchema, 
   insertDonationItemSchema, 
+  insertItemRequestSchema,
   insertContactMessageSchema 
 } from "@shared/schema";
 import session from "express-session";
@@ -201,6 +202,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(200).json(donations);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
+    }
+  });
+
+  // Item Request routes
+  app.post("/api/requests", requireAuth, async (req, res) => {
+    try {
+      const requestData = insertItemRequestSchema.parse({
+        ...req.body,
+        userId: req.session.userId,
+      });
+      const request = await storage.createItemRequest(requestData);
+      res.status(201).json(request);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  // Get user's item requests
+  app.get("/api/users/me/requests", requireAuth, async (req, res) => {
+    try {
+      const requests = await storage.getItemRequestsByUserId(req.session.userId);
+      res.status(200).json(requests);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
+  // Get requests for a specific donation item
+  app.get("/api/donations/:id/requests", requireAuth, async (req, res) => {
+    try {
+      const item = await storage.getDonationItem(parseInt(req.params.id));
+      
+      // Check if user is the donor of this item
+      if (!item || item.donorId !== req.session.userId) {
+        return res.status(403).json({ message: "Unauthorized to view these requests" });
+      }
+      
+      const requests = await storage.getItemRequestsByDonationItemId(parseInt(req.params.id));
+      res.status(200).json(requests);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
     }
   });
 

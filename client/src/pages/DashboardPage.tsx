@@ -24,8 +24,14 @@ export default function DashboardPage() {
   }, [isAuthenticated, setLocation]);
 
   // Fetch user's donations
-  const { data: userDonations, isLoading } = useQuery<DonationItem[]>({ 
+  const { data: userDonations, isLoading: donationsLoading } = useQuery<DonationItem[]>({ 
     queryKey: ['/api/users/me/donations'],
+    enabled: isAuthenticated,
+  });
+  
+  // Fetch user's requests
+  const { data: userRequests, isLoading: requestsLoading } = useQuery({ 
+    queryKey: ['/api/users/me/requests'],
     enabled: isAuthenticated,
   });
 

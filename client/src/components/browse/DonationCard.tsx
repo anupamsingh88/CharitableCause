@@ -49,7 +49,7 @@ export default function DonationCard({ donation }: DonationCardProps) {
   const { isAuthenticated, handleOpenLoginModal } = useAuth();
   const { toast } = useToast();
   
-  const handleRequestItem = () => {
+  const handleRequestItem = async () => {
     if (!isAuthenticated) {
       toast({
         title: "Authentication required",
@@ -60,10 +60,34 @@ export default function DonationCard({ donation }: DonationCardProps) {
       return;
     }
     
-    toast({
-      title: "Request sent!",
-      description: "The donor will be notified of your interest.",
-    });
+    try {
+      // Send the request to the server
+      const response = await fetch('/api/requests', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          donationItemId: donation.id,
+          message: `I'm interested in your ${donation.name}. Please contact me.`
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to send request');
+      }
+      
+      toast({
+        title: "Request sent!",
+        description: "The donor has been notified of your interest.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error sending request",
+        description: "Please try again later",
+        variant: "destructive",
+      });
+    }
   };
   
   return (
