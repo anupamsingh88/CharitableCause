@@ -106,7 +106,7 @@ export default function DashboardPage() {
             </TabsList>
             
             <TabsContent value="my-donations">
-              {isLoading ? (
+              {donationsLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[1, 2, 3].map((i) => (
                     <Card key={i}>
@@ -146,18 +146,69 @@ export default function DashboardPage() {
             </TabsContent>
             
             <TabsContent value="my-requests">
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No requests yet</h3>
-                  <p className="text-gray-500 mb-4">You haven't requested any items yet.</p>
-                  <Link href="/browse">
-                    <Button className="bg-primary hover:bg-emerald-600">
-                      Browse Available Donations
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+              {requestsLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[1, 2, 3].map((i) => (
+                    <Card key={i}>
+                      <CardContent className="p-0">
+                        <Skeleton className="h-48 rounded-t-lg" />
+                        <div className="p-4 space-y-2">
+                          <Skeleton className="h-6 w-2/3" />
+                          <Skeleton className="h-4 w-full" />
+                          <Skeleton className="h-4 w-3/4" />
+                          <Skeleton className="h-10 w-full rounded" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : userRequests && userRequests.length > 0 ? (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-700 mb-4">Your Item Requests</h3>
+                  {userRequests.map((request) => (
+                    <Card key={request.id} className="overflow-hidden">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h4 className="font-medium text-lg">Request #{request.id}</h4>
+                            <p className="text-gray-600 text-sm mt-1">
+                              {request.message}
+                            </p>
+                            <div className="mt-2 flex items-center space-x-2">
+                              <Badge 
+                                variant="outline" 
+                                className={
+                                  request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                  request.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                                  'bg-red-100 text-red-800'
+                                }
+                              >
+                                {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                              </Badge>
+                              <span className="text-sm text-gray-500">
+                                {new Date(request.createdAt).toLocaleDateString()}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card>
+                  <CardContent className="p-8 text-center">
+                    <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium mb-2">No requests yet</h3>
+                    <p className="text-gray-500 mb-4">You haven't requested any items yet.</p>
+                    <Link href="/browse">
+                      <Button className="bg-primary hover:bg-emerald-600">
+                        Browse Available Donations
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
             </TabsContent>
           </Tabs>
         </div>
