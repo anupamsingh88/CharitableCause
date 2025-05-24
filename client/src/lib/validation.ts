@@ -27,6 +27,7 @@ export const insertDonationItemSchema = z.object({
   condition: z.string().min(1, { message: "Please select a condition" }),
   description: z.string().min(10, { message: "Description should be at least 10 characters" }),
   location: z.string().min(1, { message: "Location is required" }),
+  imageUrl: z.string().optional(),
   selfPickup: z.boolean().default(false),
   canDeliver: z.boolean().default(false),
 });

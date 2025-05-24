@@ -70,9 +70,13 @@ export default function DonationCard({ donation }: DonationCardProps) {
     <Card className="overflow-hidden transition hover:shadow-lg">
       <div className="h-48 overflow-hidden">
         <img 
-          src={getCategoryImage(donation.category)} 
+          src={donation.imageUrl || getCategoryImage(donation.category)} 
           alt={donation.name} 
           className="w-full h-full object-cover"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = getCategoryImage(donation.category);
+          }}
         />
       </div>
       <CardContent className="p-4">

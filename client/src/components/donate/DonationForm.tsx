@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { Upload, Gift } from 'lucide-react';
+import { Upload, Gift, X, Image as ImageIcon } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { insertDonationItemSchema } from '@/lib/validation';
@@ -22,6 +22,9 @@ export default function DonationForm() {
   const { toast } = useToast();
   const { isAuthenticated, handleOpenLoginModal } = useAuth();
   const [isUploading, setIsUploading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   
   // Setup form with validation
@@ -33,6 +36,7 @@ export default function DonationForm() {
       condition: '',
       description: '',
       location: '',
+      imageUrl: '',
       selfPickup: false,
       canDeliver: false,
     },
@@ -61,6 +65,62 @@ export default function DonationForm() {
     },
   });
   
+  // Handle image upload
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Maximum file size is 5MB",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Check file type
+    if (!file.type.match('image/(jpeg|jpg|png|gif)')) {
+      toast({
+        title: "Invalid file type",
+        description: "Only JPG, PNG, and GIF files are allowed",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setIsUploading(true);
+    
+    // Create a temporary preview URL
+    const objectUrl = URL.createObjectURL(file);
+    setPreviewUrl(objectUrl);
+    
+    // For this demonstration, we'll use the file name as the image URL
+    // In a real application, you would upload the file to a server or storage service
+    // and get back the actual URL
+    const imageUrl = `https://placekitten.com/400/300?filename=${encodeURIComponent(file.name)}`;
+    setImageUrl(imageUrl);
+    form.setValue('imageUrl', imageUrl);
+    
+    setTimeout(() => {
+      setIsUploading(false);
+      toast({
+        title: "Image uploaded",
+        description: "Your image has been added to the donation",
+      });
+    }, 1500);
+  };
+  
+  const removeImage = () => {
+    setPreviewUrl('');
+    setImageUrl('');
+    form.setValue('imageUrl', '');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+  
   // Handle form submission
   const onSubmit = (data: FormValues) => {
     if (!isAuthenticated) {
@@ -73,7 +133,13 @@ export default function DonationForm() {
       return;
     }
     
-    createDonation(data);
+    // Include the image URL in the form data
+    const formData = {
+      ...data,
+      imageUrl: imageUrl,
+    };
+    
+    createDonation(formData);
   };
   
   return (
@@ -244,24 +310,62 @@ export default function DonationForm() {
                   </div>
                   
                   <div className="mb-4">
-                    <FormLabel className="block text-gray-700 mb-2">Photos (up to 4)</FormLabel>
-                    <div className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center">
-                      <Upload className="mx-auto h-10 w-10 text-gray-400 mb-2" />
-                      <p className="text-gray-500">Drag and drop photos or</p>
-                      <Button 
-                        type="button" 
-                        variant="secondary"
-                        className="mt-2"
-                        onClick={() => {
-                          toast({
-                            description: "Photo upload functionality will be available soon",
-                          });
-                        }}
+                    <FormLabel className="block text-gray-700 mb-2">Photos (1 image)</FormLabel>
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/gif"
+                      ref={fileInputRef}
+                      className="hidden"
+                      onChange={handleImageUpload}
+                    />
+                    
+                    {previewUrl ? (
+                      <div className="relative border rounded-md overflow-hidden">
+                        <img 
+                          src={previewUrl} 
+                          alt="Preview" 
+                          className="w-full h-48 object-cover"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute top-2 right-2"
+                          onClick={removeImage}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <div 
+                        className="border-2 border-dashed border-gray-300 rounded-md p-6 text-center cursor-pointer hover:bg-gray-50"
+                        onClick={() => fileInputRef.current?.click()}
                       >
-                        Browse Files
-                      </Button>
-                      <p className="text-xs text-gray-500 mt-2">JPG, PNG or GIF (max. 5MB each)</p>
-                    </div>
+                        {isUploading ? (
+                          <div className="flex flex-col items-center">
+                            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mb-2"></div>
+                            <p className="text-gray-500">Uploading image...</p>
+                          </div>
+                        ) : (
+                          <>
+                            <Upload className="mx-auto h-10 w-10 text-gray-400 mb-2" />
+                            <p className="text-gray-500">Drag and drop a photo or</p>
+                            <Button 
+                              type="button" 
+                              variant="secondary"
+                              className="mt-2"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                fileInputRef.current?.click();
+                              }}
+                            >
+                              Browse Files
+                            </Button>
+                            <p className="text-xs text-gray-500 mt-2">JPG, PNG or GIF (max. 5MB)</p>
+                          </>
+                        )}
+                      </div>
+                    )}
                   </div>
                   
                   <div className="mt-6">
