@@ -29,7 +29,7 @@ export default function DashboardPage() {
     queryKey: ['/api/users/me/donations'],
     enabled: isAuthenticated,
   });
-  
+
   // Fetch user's requests
   const { data: userRequests, isLoading: requestsLoading } = useQuery({ 
     queryKey: ['/api/users/me/requests'],
@@ -46,7 +46,7 @@ export default function DashboardPage() {
         <title>Dashboard | E-Donation Portal</title>
         <meta name="description" content="Manage your donations and requests on the E-Donation portal" />
       </Helmet>
-      
+
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-start mb-8">
@@ -56,7 +56,7 @@ export default function DashboardPage() {
                 Welcome back, {user?.firstName}! Manage your donations and requests.
               </p>
             </div>
-            
+
             <div className="mt-4 md:mt-0">
               <Link href="/donate">
                 <Button className="bg-primary hover:bg-emerald-600">
@@ -66,7 +66,7 @@ export default function DashboardPage() {
               </Link>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card>
               <CardHeader className="pb-2">
@@ -76,7 +76,7 @@ export default function DashboardPage() {
                 <div className="text-2xl font-bold">{userDonations?.length || 0}</div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-gray-500">Active Listings</CardTitle>
@@ -87,7 +87,7 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-gray-500">Completed Donations</CardTitle>
@@ -99,13 +99,13 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </div>
-          
+
           <Tabs defaultValue="my-donations">
             <TabsList className="mb-6">
               <TabsTrigger value="my-donations">My Donations</TabsTrigger>
               <TabsTrigger value="my-requests">My Requests</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="my-donations">
               {donationsLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -135,17 +135,19 @@ export default function DashboardPage() {
                     <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-lg font-medium mb-2">No donations yet</h3>
                     <p className="text-gray-500 mb-4">You haven't created any donation listings yet.</p>
-                    <Link href="/donate">
-                      <Button className="bg-primary hover:bg-emerald-600">
-                        <Plus className="mr-2 h-4 w-4" />
-                        Create Your First Donation
-                      </Button>
-                    </Link>
+                    
+              <Button className="bg-primary hover:bg-emerald-600" asChild>
+                <Link href="/donate">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create Your First Donation
+                </Link>
+              </Button>
+                  
                   </CardContent>
                 </Card>
               )}
             </TabsContent>
-            
+
             <TabsContent value="my-requests">
               {requestsLoading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
