@@ -7,27 +7,13 @@ export default function Footer() {
   return (
     <footer className="bg-gray-800 text-gray-300 py-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center mb-4">
               <HandHeart className="text-primary h-6 w-6 mr-2" />
               <span className="font-bold text-xl text-white">E-Donate</span>
             </div>
             <p className="text-gray-400 mb-4">Making a difference through sustainable donation and reducing waste.</p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
-                <Instagram size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
-                <Linkedin size={20} />
-              </a>
-            </div>
           </div>
           
           <div>
@@ -37,37 +23,16 @@ export default function Footer() {
                 <Link href="/" className="text-gray-400 hover:text-white transition">Home</Link>
               </li>
               <li>
-                <Link href="/#about" className="text-gray-400 hover:text-white transition">About Us</Link>
+                <Link href="/about" className="text-gray-400 hover:text-white transition">About Us</Link>
               </li>
               <li>
-                <Link href="/#donate" className="text-gray-400 hover:text-white transition">Donate Items</Link>
+                <Link href="/donate" className="text-gray-400 hover:text-white transition">Donate Items</Link>
               </li>
               <li>
-                <Link href="/#browse" className="text-gray-400 hover:text-white transition">Browse Donations</Link>
+                <Link href="/browse" className="text-gray-400 hover:text-white transition">Browse Donations</Link>
               </li>
               <li>
-                <Link href="/#contact" className="text-gray-400 hover:text-white transition">Contact Us</Link>
-              </li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Resources</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition">How It Works</Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition">FAQ</Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition">Donation Guidelines</Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition">Privacy Policy</Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition">Terms of Service</Link>
+                <Link href="/contact" className="text-gray-400 hover:text-white transition">Contact Us</Link>
               </li>
             </ul>
           </div>

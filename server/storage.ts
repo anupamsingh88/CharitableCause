@@ -22,6 +22,12 @@ export interface IStorage {
   createDonationItem(item: InsertDonationItem): Promise<DonationItem>;
   updateDonationItemStatus(id: number, status: string): Promise<DonationItem | undefined>;
   
+  // Request operations
+  createItemRequest(request: InsertItemRequest): Promise<ItemRequest>;
+  getItemRequestsByUserId(userId: number): Promise<ItemRequest[]>;
+  getItemRequestsByDonationItemId(itemId: number): Promise<ItemRequest[]>;
+  updateItemRequestStatus(id: number, status: string): Promise<ItemRequest | undefined>;
+  
   // Contact operations
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
 }
@@ -96,6 +102,45 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     return updatedItem;
+  }
+
+  // Item Request methods
+  async createItemRequest(insertRequest: InsertItemRequest): Promise<ItemRequest> {
+    const [request] = await db
+      .insert(itemRequests)
+      .values(insertRequest)
+      .returning();
+    
+    // Update the donation item status to 'requested'
+    await this.updateDonationItemStatus(insertRequest.donationItemId, 'requested');
+    
+    return request;
+  }
+
+  async getItemRequestsByUserId(userId: number): Promise<ItemRequest[]> {
+    return await db
+      .select()
+      .from(itemRequests)
+      .where(eq(itemRequests.userId, userId))
+      .orderBy(desc(itemRequests.createdAt));
+  }
+
+  async getItemRequestsByDonationItemId(itemId: number): Promise<ItemRequest[]> {
+    return await db
+      .select()
+      .from(itemRequests)
+      .where(eq(itemRequests.donationItemId, itemId))
+      .orderBy(desc(itemRequests.createdAt));
+  }
+
+  async updateItemRequestStatus(id: number, status: string): Promise<ItemRequest | undefined> {
+    const [updatedRequest] = await db
+      .update(itemRequests)
+      .set({ status })
+      .where(eq(itemRequests.id, id))
+      .returning();
+    
+    return updatedRequest;
   }
 
   // Contact methods

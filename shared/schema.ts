@@ -46,6 +46,22 @@ export const insertDonationItemSchema = createInsertSchema(donationItems).pick({
   donorId: true,
 });
 
+// Item Request schema
+export const itemRequests = pgTable("item_requests", {
+  id: serial("id").primaryKey(),
+  message: text("message"),
+  status: text("status").default("pending").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  donationItemId: integer("donation_item_id").notNull().references(() => donationItems.id),
+});
+
+export const insertItemRequestSchema = createInsertSchema(itemRequests).pick({
+  message: true,
+  userId: true,
+  donationItemId: true,
+});
+
 // Contact message schema
 export const contactMessages = pgTable("contact_messages", {
   id: serial("id").primaryKey(),
@@ -69,6 +85,9 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 
 export type DonationItem = typeof donationItems.$inferSelect;
 export type InsertDonationItem = z.infer<typeof insertDonationItemSchema>;
+
+export type ItemRequest = typeof itemRequests.$inferSelect;
+export type InsertItemRequest = z.infer<typeof insertItemRequestSchema>;
 
 export type ContactMessage = typeof contactMessages.$inferSelect;
 export type InsertContactMessage = z.infer<typeof insertContactMessageSchema>;

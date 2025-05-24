@@ -92,16 +92,13 @@ export default function DonationForm() {
     
     setIsUploading(true);
     
-    // Create a temporary preview URL
+    // Create a URL for the uploaded image
     const objectUrl = URL.createObjectURL(file);
     setPreviewUrl(objectUrl);
     
-    // For this demonstration, we'll use the file name as the image URL
-    // In a real application, you would upload the file to a server or storage service
-    // and get back the actual URL
-    const imageUrl = `https://placekitten.com/400/300?filename=${encodeURIComponent(file.name)}`;
-    setImageUrl(imageUrl);
-    form.setValue('imageUrl', imageUrl);
+    // Use the actual image data instead of a placeholder
+    setImageUrl(objectUrl);
+    form.setValue('imageUrl', objectUrl);
     
     setTimeout(() => {
       setIsUploading(false);
