@@ -15,13 +15,13 @@ export default function Hero() {
               Give your items a second life and help those in need. Your unwanted items could be someone else's treasure.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="#donate">
+              <Link href="/donate">
                 <Button className="w-full bg-primary hover:bg-emerald-600 px-6 py-6 h-auto">
                   <Gift className="mr-2 h-5 w-5" />
                   Donate Items
                 </Button>
               </Link>
-              <Link href="#browse">
+              <Link href="/browse">
                 <Button variant="outline" className="w-full text-primary border-primary hover:bg-gray-50 px-6 py-6 h-auto">
                   <Search className="mr-2 h-5 w-5" />
                   Browse Donations

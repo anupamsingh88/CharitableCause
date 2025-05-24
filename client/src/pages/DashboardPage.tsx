@@ -51,7 +51,7 @@ export default function DashboardPage() {
             </div>
             
             <div className="mt-4 md:mt-0">
-              <Link href="#donate">
+              <Link href="/donate">
                 <Button className="bg-primary hover:bg-emerald-600">
                   <Plus className="mr-2 h-4 w-4" />
                   Create New Donation
@@ -128,7 +128,7 @@ export default function DashboardPage() {
                     <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-lg font-medium mb-2">No donations yet</h3>
                     <p className="text-gray-500 mb-4">You haven't created any donation listings yet.</p>
-                    <Link href="#donate">
+                    <Link href="/donate">
                       <Button className="bg-primary hover:bg-emerald-600">
                         <Plus className="mr-2 h-4 w-4" />
                         Create Your First Donation
@@ -145,7 +145,7 @@ export default function DashboardPage() {
                   <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">No requests yet</h3>
                   <p className="text-gray-500 mb-4">You haven't requested any items yet.</p>
-                  <Link href="#browse">
+                  <Link href="/browse">
                     <Button className="bg-primary hover:bg-emerald-600">
                       Browse Available Donations
                     </Button>
