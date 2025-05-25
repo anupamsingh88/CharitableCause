@@ -7,12 +7,12 @@ export default function Stats() {
             <div className="text-primary text-4xl font-bold mb-2">5,000+</div>
             <p className="text-gray-600">Items Donated</p>
           </div>
-          
+
           <div className="text-center p-6 rounded-lg bg-blue-50">
-            <div className="text-secondary text-4xl font-bold mb-2">1,200+</div>
+            <div className="text-primary text-4xl font-bold mb-2">1,200+</div>
             <p className="text-gray-600">Active Users</p>
           </div>
-          
+
           <div className="text-center p-6 rounded-lg bg-emerald-50">
             <div className="text-primary text-4xl font-bold mb-2">350+</div>
             <p className="text-gray-600">Communities Served</p>

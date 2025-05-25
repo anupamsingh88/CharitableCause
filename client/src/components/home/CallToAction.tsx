@@ -24,7 +24,7 @@ export default function CallToAction() {
               Sign Up Now
             </Button>
           )}
-          <Link href="#donate">
+          <Link href="/donate">
             <Button 
               variant="outline" 
               className="bg-emerald-500 text-white border-emerald-400 hover:bg-emerald-400"

@@ -3,7 +3,7 @@ import { Star } from 'lucide-react';
 const testimonials = [
   {
     id: 1,
-    name: "Laura S.",
+    name: "Vinayak S.",
     initials: "LS",
     color: "bg-primary",
     rating: 5,
@@ -11,15 +11,15 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Marcus J.",
+    name: "Anupam Singh.",
     initials: "MJ",
-    color: "bg-secondary",
-    rating: 4.5,
+    color: "bg-black",
+    rating: 5,
     text: "As a student on a tight budget, E-Donate has been a lifesaver. I've furnished most of my apartment with donated items, saving money while reducing waste. The community here is incredibly generous!"
   },
   {
     id: 3,
-    name: "Anita P.",
+    name: "Harsh S.",
     initials: "AP",
     color: "bg-emerald-600",
     rating: 5,

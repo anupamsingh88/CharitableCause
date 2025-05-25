@@ -161,7 +161,7 @@ export default function ContactForm() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Email</h4>
-                      <p className="text-gray-600">support@e-donate.org</p>
+                      <p className="text-gray-600">anshurai236@gmail.com</p>
                     </div>
                   </div>
                   
@@ -171,7 +171,7 @@ export default function ContactForm() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Phone</h4>
-                      <p className="text-gray-600">(555) 123-4567</p>
+                      <p className="text-gray-600">+919359328111</p>
                     </div>
                   </div>
                   
@@ -181,41 +181,7 @@ export default function ContactForm() {
                     </div>
                     <div>
                       <h4 className="font-semibold">Location</h4>
-                      <p className="text-gray-600">123 Green Street<br />Boston, MA 02108</p>
-                    </div>
-                  </div>
-                  
-                  <div className="mb-6">
-                    <h4 className="font-semibold mb-3">Follow Us</h4>
-                    <div className="flex space-x-4">
-                      <a 
-                        href="#" 
-                        className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition"
-                        aria-label="Facebook"
-                      >
-                        <i className="fab fa-facebook-f"></i>
-                      </a>
-                      <a 
-                        href="#" 
-                        className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition"
-                        aria-label="Twitter"
-                      >
-                        <i className="fab fa-twitter"></i>
-                      </a>
-                      <a 
-                        href="#" 
-                        className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition"
-                        aria-label="Instagram"
-                      >
-                        <i className="fab fa-instagram"></i>
-                      </a>
-                      <a 
-                        href="#" 
-                        className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition"
-                        aria-label="LinkedIn"
-                      >
-                        <i className="fab fa-linkedin-in"></i>
-                      </a>
+                      <p className="text-gray-600">Awas Vikas Colony<br />Lucknow, Uttar Pradesh</p>
                     </div>
                   </div>
                 </div>
