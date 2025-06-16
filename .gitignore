@@ -5,3 +5,4 @@ server/public
 .env
 vite.config.ts.*
 *.tar.gz
+client/.env.production
