@@ -9,7 +9,7 @@ export default function Stats() {
           </div>
           
           <div className="text-center p-6 rounded-lg bg-blue-50">
-            <div className="text-secondary text-4xl font-bold mb-2">1,200+</div>
+            <div className="text-primary text-4xl font-bold mb-2">1,200+</div>
             <p className="text-gray-600">Active Users</p>
           </div>
           

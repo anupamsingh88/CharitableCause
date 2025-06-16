@@ -3,24 +3,24 @@ import { Star } from 'lucide-react';
 const testimonials = [
   {
     id: 1,
-    name: "Laura S.",
-    initials: "LS",
+    name: "Vinayak Srivastav",
+    initials: "VS",
     color: "bg-primary",
     rating: 5,
     text: "I was moving apartments and had so many items I couldn't take with me. Thanks to E-Donate, I was able to find new homes for my furniture instead of sending it to a landfill. The process was simple and rewarding!"
   },
   {
     id: 2,
-    name: "Marcus J.",
-    initials: "MJ",
+    name: "Anupam Singh",
+    initials: "AS",
     color: "bg-secondary",
     rating: 4.5,
     text: "As a student on a tight budget, E-Donate has been a lifesaver. I've furnished most of my apartment with donated items, saving money while reducing waste. The community here is incredibly generous!"
   },
   {
     id: 3,
-    name: "Anita P.",
-    initials: "AP",
+    name: "Harsh Singh",
+    initials: "HS",
     color: "bg-emerald-600",
     rating: 5,
     text: "I run a community center and we've received so many wonderful donations through this platform. From furniture to electronics, these items have made a huge difference for the families we serve."

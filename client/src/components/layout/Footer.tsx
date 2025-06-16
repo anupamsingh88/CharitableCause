@@ -54,7 +54,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} E-Donate. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} E-Donate. All rights reserved.Developed By Badmos Developers</p>
         </div>
       </div>
     </footer>
