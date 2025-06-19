@@ -109,21 +109,11 @@ npx drizzle-kit generate
 npx drizzle-kit push
 ```
 
----
-
----
-
 ## 👨‍💻 Author
 
 * **Anupam Singh**
 
 ---
 
-
-
----
-
 ❤️ Built for those who care. Developed with AI assistance and human empathy.
 Easily adaptable for real-world NGOs, crowdfunding platforms, and donation campaigns.
-
-```
