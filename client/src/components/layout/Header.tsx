@@ -32,7 +32,7 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
               <HandHeart className="text-primary h-6 w-6 mr-2" />
-              <span className="font-bold text-xl text-gray-800">E-Donate</span>
+              <span className="font-bold text-xl text-gray-800">CharitableCause</span>
             </Link>
           </div>
           
