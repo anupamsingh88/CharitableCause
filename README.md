@@ -1,4 +1,3 @@
-
 # 🤝 Charitable Cause – E-Donation Portal
 
 **Charitable Cause** is a modern **E-Donation Portal** that empowers users to explore and support meaningful causes through a clean, user-friendly interface. The platform provides a seamless donation experience with real-time progress tracking, responsive design, and data-driven campaign listings.
@@ -111,10 +110,6 @@ npx drizzle-kit push
 ```
 
 ---
-
-## 📸 Screenshots
-
-*(Add screenshots here showing: Home page, donation cards, dark mode UI, etc.)*
 
 ---
 
