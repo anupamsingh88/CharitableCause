@@ -51,6 +51,11 @@ export default function DonationForm() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/donations'] });
       form.reset();
+      setImageUrl('');
+      setPreviewUrl('');
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
       toast({
         title: "Donation submitted successfully!",
         description: "Thank you for your contribution to the community.",
@@ -70,11 +75,11 @@ export default function DonationForm() {
     const file = event.target.files?.[0];
     if (!file) return;
     
-    // Check file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
+    // Check file size (max 2MB to account for base64 encoding)
+    if (file.size > 2 * 1024 * 1024) {
       toast({
         title: "File too large",
-        description: "Maximum file size is 5MB",
+        description: "Maximum file size is 2MB",
         variant: "destructive",
       });
       return;
@@ -92,21 +97,54 @@ export default function DonationForm() {
     
     setIsUploading(true);
     
-    // Create a URL for the uploaded image
-    const objectUrl = URL.createObjectURL(file);
-    setPreviewUrl(objectUrl);
+    // Create canvas for image compression
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
     
-    // Use the actual image data instead of a placeholder
-    setImageUrl(objectUrl);
-    form.setValue('imageUrl', objectUrl);
-    
-    setTimeout(() => {
+    img.onload = () => {
+      // Calculate new dimensions (max 800px width)
+      const maxWidth = 800;
+      const maxHeight = 600;
+      let { width, height } = img;
+      
+      if (width > maxWidth) {
+        height = (height * maxWidth) / width;
+        width = maxWidth;
+      }
+      if (height > maxHeight) {
+        width = (width * maxHeight) / height;
+        height = maxHeight;
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      
+      // Draw and compress image
+      ctx?.drawImage(img, 0, 0, width, height);
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      
+      setPreviewUrl(compressedDataUrl);
+      setImageUrl(compressedDataUrl);
+      form.setValue('imageUrl', compressedDataUrl);
+      
       setIsUploading(false);
       toast({
         title: "Image uploaded",
         description: "Your image has been added to the donation",
       });
-    }, 1500);
+    };
+    
+    img.onerror = () => {
+      setIsUploading(false);
+      toast({
+        title: "Upload failed",
+        description: "There was an error processing your image",
+        variant: "destructive",
+      });
+    };
+    
+    img.src = URL.createObjectURL(file);
   };
   
   const removeImage = () => {
